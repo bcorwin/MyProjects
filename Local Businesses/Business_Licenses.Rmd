@@ -1,0 +1,82 @@
+Visiting Local Businesses
+========================================================
+Introduction
+--------------------------------------------------------
+My friend (and neighbor) and I decided that we wanted to visit all of our local businesses -- from the lake to Broadway and from Berwyn to Lawrence (our local 'L' stops). In order to do this, we needed a list to keep track of which shops existed and which we've been to. Instead of walking down the streets with a notebook, I decided to generate the list using open data. All the data is available through a list of [Business Licenses](https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses/r5kz-chrr) on Chicago's data portal.
+
+For practice, I switched from SAS to R and am using Knitr (for the first time) to produce this webpage.
+
+Getting and processing the data
+--------------------------------------------------------
+After downloading the data from the Data Portal for my zip code, I processed the data to extract only locations within the boundaries we defined as well as limited the license list to those that have not yet expired (as of 5/27/2014). Below is a list of the first ten accounts and selected columns.
+```{r echo = FALSE, message = FALSE}
+setwd("C:\\Data\\Other Stuff\\Projects\\Local Businesses")
+require(reshape2)
+
+alldata <- read.csv("Business_Licenses.csv", stringsAsFactors = FALSE)
+addysplit <- colsplit(alldata$ADDRESS, " ", c("NUMBER", "DIR", "STREET.NAME", "ROAD", "APT"))
+alldata <- cbind(alldata, addysplit)
+alldata$IN.NS <- alldata$NUMBER >= "4750" & alldata$NUMBER < "5350" &
+                    alldata$STREET.NAME %in% c("BROADWAY", "WINTHROP", "KENMORE", "SHERIDAN")
+alldata$IN.EW <- alldata$NUMBER >= "950" & alldata$NUMBER < "1250" &
+                    alldata$STREET.NAME %in% c("BERWYN", "FOSTER", "WINONA", "CARMEN", "WINNEMAC", "ARGYLE", "AINSLIE", "LAWRENCE", "GUNNISON")
+alldata$EXPIRE.DATE <- as.Date(alldata$LICENSE.TERM.EXPIRATION.DATE, "%m/%d/%Y")
+
+currlocal <- alldata[(alldata$IN.NS | alldata$IN.EW) == "TRUE"
+                     & alldata$EXPIRE.DATE >= as.Date("05/27/2014", "%m/%d/%Y"),]
+currlocal <- currlocal[order(currlocal$ACCOUNT.NUMBER,currlocal$SITE.NUMBER),]
+row.names(currlocal)<-NULL
+head(currlocal[,c("ACCOUNT.NUMBER", "DOING.BUSINESS.AS.NAME", "ADDRESS")], addrownums = FALSE, n = 10)
+```
+
+If you look at the above table, you can see that there are multiple entries for the same business (for an example, see "Fiesta Mexicana Corp" which has account number 3474). As we can clearly see in the below table, this is because the businesses can have multiple licenses.
+
+```{r echo = FALSE, message = FALSE}
+head(currlocal[,c("ACCOUNT.NUMBER", "LICENSE.DESCRIPTION")], addrownums = FALSE, n = 10)
+```
+
+I cleaned this up and created only one row for each local storefront, however,  I did not want to lose the license information, so I created a new column that lists all licenses that a business has. Below is the list of licenses for "Fiesta Mexicana."
+
+```{r message = FALSE, echo = FALSE}
+LICENSES <- currlocal[,c("ACCOUNT.NUMBER", "LICENSE.DESCRIPTION")]
+names(LICENSES) = c("ACCOUNT.NUMBER", "LICENSE.LIST")
+for(row in 2:nrow(LICENSES)) {
+  if(LICENSES$ACCOUNT.NUMBER[row] == LICENSES$ACCOUNT.NUMBER[row-1]) {
+    LICENSES$LICENSE.LIST[row] <- paste(LICENSES$LICENSE.LIST[row-1], LICENSES$LICENSE.LIST[row], sep = "|")
+  }
+}
+for(row in 1:(nrow(LICENSES)-1)) {
+  if(LICENSES$ACCOUNT.NUMBER[row] == LICENSES$ACCOUNT.NUMBER[row+1]) {
+    LICENSES$LICENSE.LIST[row] <- NA
+  }
+}
+LICENSES <- LICENSES[!is.na(LICENSES$LICENSE.LIST),]
+currlocal <- merge(currlocal, LICENSES)
+currlocal$lat <- as.numeric(currlocal$LATITUDE)
+currlocal$lon <- as.numeric(currlocal$LONGITUDE)
+
+output <- currlocal[!duplicated(currlocal[c("ACCOUNT.NUMBER", "DOING.BUSINESS.AS.NAME")]),
+                    c("DOING.BUSINESS.AS.NAME","NUMBER","DIR","STREET.NAME","ROAD","LICENSE.LIST","lat", "lon")]
+
+output[output$DOING.BUSINESS.AS.NAME == "FIESTA MEXICANA CORP", "LICENSE.LIST"]
+
+```
+
+Outputting and mapping visits
+--------------------------------------------------------
+The final data was then outputted as an excel document which will be used to track the businesses that we have and have not visited. To facilitate the tracking and to use the latitude/longitude data included from the data portal, I created a map to see where we have and have not yet visited. As you can see, we have a long way to go.
+
+```{r include = FALSE}
+withVists <- read.csv("Business_List _withVists.csv")
+withVists <- withVists[!is.na(withVists$lon),]
+
+require(maps)
+require(ggmap)
+map <- get_googlemap(c(lon=-87.656,lat=41.9740), zoom = 16, maptype = "roadmap")
+legend <- scale_colour_discrete(name = "Visited?")
+```
+```{r echo = FALSE, warning = FALSE}
+ggmap(map) + geom_point(data = withVists, aes(x=lon, y=lat, colour = BEN.VISITED),
+                        size = 2, alpha = .5) + legend
+```
+
