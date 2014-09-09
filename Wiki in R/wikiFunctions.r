@@ -34,8 +34,40 @@ rmBrackets <- function(str, l = "(", r = ")") {
     }
     str
 }
-
-
+rmHTMLfunc <- function(text, htmlFunc = "i") {
+    start <- paste("<", htmlFunc, ">")
+    end <- paste("</", htmlFunc, ">")
+    
+    starts <- gregexpr("<i>", text, ignore.case = TRUE)
+    ends <- gregexpr("</i>", text, ignore.case = TRUE)
+    
+    text <- data.frame(str = text, stringsAsFactors = FALSE)
+    text$starts <- starts
+    text$ends <- ends
+    text$stLens <- lapply(starts, attr, which = "match.length")
+    text$endLens <- lapply(ends, attr, which = "match.length")
+    
+    output <- apply(text, 1,rmSubStrs)
+    return(output)
+    
+}
+rmSubStrs <- function(string) {
+    if(string$starts[[1]] > -1) {
+        funcCnt <- length(string$starts)
+        rmVals <- NULL
+        for(cnt in seq(funcCnt)) {
+            startVal <- string$starts[[cnt]]
+            endVal <- string$ends[[cnt]]
+            endLen <-  string$endLens[[cnt]]
+            rmVals <- c(rmVals, substr(string$str, startVal, endVal + endLen - 1))
+        }
+        rmVals <- paste(rmVals, collapse = "|")
+        output <- gsub(rmVals, "", string$str)
+    } else {
+        output <- string$str
+    }
+    return(output)
+}
 getFirstLink <- function(url){
     #Load packages
     require(RCurl)
@@ -43,9 +75,8 @@ getFirstLink <- function(url){
 
     #Download html
     html <- getURL(url, followlocation = TRUE)
-    #html <- rmItalics(html)
-    #html <- gsub("([[:digit:]])\\)[^.!]", "\\1\\.", html)
-    #html <- rmBrackets(html)
+    html <- rmHTMLfunc(html)
+    html <- rmBrackets(html)
     doc = htmlParse(html, asText=TRUE)
     
     #All links in paragraphs
@@ -57,32 +88,30 @@ getFirstLink <- function(url){
     #Check links and grab the first
     for(lNum in seq(length(links))) {
         link <- links[[lNum]]
-        if(grepl("/wiki/", link)) break
+        if(grepl("/WIKI/", link, ignore.case = TRUE)) break
     }
     link <- paste("http://en.wikipedia.org", link, sep = "")
     link
 }
 
-test <- getStartingLinks(25)
+test <- getStartingLinks(2)
 test$firstLink <- sapply(test$pageLink, getFirstLink)
 
 #Examples
 ##Parenthesis
-###http://en.wikipedia.org/wiki/Jason_Da_Costa
+###url <- "http://en.wikipedia.org/wiki/Jason_Da_Costa"
 ###http://en.wikipedia.org/wiki/Watisoni_Votu
 ###http://en.wikipedia.org/wiki/Augusto_Monti
-###http://en.wikipedia.org/wiki/Mozambique (also goes to HELP:IPA)
+###url <- "http://en.wikipedia.org/wiki/Mozambique" (Good one to test)
 ##Only list (no paragraph)
-###http://en.wikipedia.org/wiki/White_Horse_Tavern
+###url <- "http://en.wikipedia.org/wiki/White_Horse_Tavern"
 ##With tables
 ###url <- "http://en.wikipedia.org/wiki/333_BC"
+##First link is truncationed (not fixed)
+### url <- "http://en.wikipedia.org/wiki/Jos%C3%A9_Mar%C3%ADa_Bustillo"
 
 
 #Plan:
 ##Get starting paths
 ##(create a function to find paths and add start -> first link to use as a look-up)
 ##Find paths (and loops) as lists in the starting path data frame
-
-
-#remove (), needs to be recursively done though
-gsub("\\([^()]*\\)", "", pTest)
