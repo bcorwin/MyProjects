@@ -1,0 +1,15 @@
+Test/*
+LSC/*
+
+*/shinyapps
+*/Raw
+*/Raw Data
+
+*.Rmd
+*.rdata
+*.jpg
+*.Rhistory
+*.png
+*.db
+*.dcf
+*.pptx
