@@ -24,7 +24,7 @@ comPort = None
 def chkArduino(minLog, testMode, ser):
 	sensorVars = [x for x in vars2pass(True)]
 	sensorVars.sort()
-	fileName = genCompLog("SENSOR LOG " + str(datetime.datetime.now().strftime("%Y%m%d_%H%M")) + ".csv", sensorVars)
+	fileName = genCompLog("Logs\SENSOR LOG " + str(datetime.datetime.now().strftime("%Y%m%d_%H%M")) + ".csv", sensorVars)
 	#Initialize vars
 	lastLogAttempt = time.time()-60*minLog - 1
 	allSums = vars2pass(True)
@@ -34,7 +34,7 @@ def chkArduino(minLog, testMode, ser):
 	logEvent("Starting|minLog=" + str(minLog) + "|testMode=" + testMode + "|fileName=" + fileName)
 	
 	forceLog = "N"
-	queuedLogs = "QUEUED LOGS.csv"
+	queuedLogs = "Logs\QUEUED LOGS.csv"
 	try:
 		queuedLogsCnt = sum(1 for row in csv.reader(open(queuedLogs))) - 1
 	except:
@@ -159,7 +159,7 @@ def log2computer(fileName, response, data, sensorVars):
 	fd.close()
 	
 def logEvent(msg):
-	logfile = open("EVENT LOG.csv", "a")
+	logfile = open("Logs\EVENT LOG.csv", "a")
 	logfile.write(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "," + msg + "\n")	
 	return(msg)
 	
