@@ -1,0 +1,8 @@
+-Event logging:
+-+Failed Upload
+-+Failed Post
+-+Attempting to post queued
+-+Successful queued post
+-+Failed queued post
+-+Keyboard events (cancelling, changing log time, and forcing log)
+-+Start up log
