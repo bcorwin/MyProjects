@@ -1,8 +1,6 @@
 Test/*
 LSC/*
-
-Brew-o-meter/monitor
-Brew-o-meter/Logs
+Brew-o-meter/*
 
 */shinyapps
 */Raw
