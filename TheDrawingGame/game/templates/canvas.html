@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'Drawingboard/css/drawingboard.css' %}">
+        
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script type="text/javascript" src="{% static 'Drawingboard/js/utils.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Drawingboard/js/board.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Drawingboard/js/controls/control.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Drawingboard/js/controls/color.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Drawingboard/js/controls/drawingmode.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Drawingboard/js/controls/navigation.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Drawingboard/js/controls/size.js' %}"></script>
+		<script type="text/javascript" src="{% static 'Drawingboard/js/controls/download.js' %}"></script>
+	</head>
+	<body>
+
+        <div id="canvasDiv"></div>
+        
+        <style>
+            #canvasDiv {
+                width: 1200px;
+                height: 600px;
+            }
+        </style>
+
+		<script type="text/javascript">
+			var canvas = new DrawingBoard.Board("canvasDiv");
+            canvas.addControl('Download');
+            
+            function onsubmitform() {
+               //get drawingboard content
+              var img = canvas.getImg();
+              
+              //we keep drawingboard content only if it's not the 'blank canvas'
+              var imgInput = (canvas.blankCanvas == img) ? '' : img;
+              
+              //put the drawingboard content in the form field to send it to the server
+              document.submit_img_form.img.value = imgInput
+            };
+		</script>
+        
+        <form name="submit_img_form" action="/game/canvas/" method="post" onsubmit = "return onsubmitform();">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit Image" />
+        </form>
+        
+        <img  src="data:image/png;base64,{{ prev_img }}" >
+
+	</body>
+</html>
