@@ -1,6 +1,7 @@
 Test/
 LSC/
 Brew-o-meter/
+TDG/
 
 */shinyapps
 */Raw
@@ -14,3 +15,4 @@ Brew-o-meter/
 *.db
 *.dcf
 *.pptx
+*.bat
