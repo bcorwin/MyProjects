@@ -1,0 +1,10 @@
+if (window['google'] != undefined && window['google']['loader'] != undefined) {
+if (!window['google']['visualization']) {
+window['google']['visualization'] = {};
+google.visualization.Version = '1.0';
+google.visualization.JSHash = 'ce7a9bd29458c92c2c25b7969aaf2727';
+google.visualization.LoadArgs = 'file\75visualization\46v\0751\46packages\75map\46async\0752';
+}
+google.loader.writeLoadTag("css", google.loader.ServiceBase + "/api/visualization/1.0/ce7a9bd29458c92c2c25b7969aaf2727/ui+en.css", true);
+google.loader.writeLoadTag("script", google.loader.ServiceBase + "/api/visualization/1.0/ce7a9bd29458c92c2c25b7969aaf2727/format+en,default+en,ui+en,map+en.I.js", true);
+}

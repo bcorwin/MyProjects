@@ -1,0 +1,288 @@
+<!-- Map generated in R 3.1.2 by googleVis 0.5.8 package -->
+<!-- Thu Apr 09 10:56:36 2015 -->
+
+
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataMapID643cc3cf27c82 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "3110 W Belmont Ave Ste 1E Chicago, IL 60618",
+"Belmont Eye Care" 
+],
+[
+ "2154 W Roscoe Unit C Chicago, IL 60618",
+"Spex" 
+],
+[
+ "4459 N Kedzie Ave Chicago, IL 60625",
+"Family Eye Physicians" 
+],
+[
+ "2110 W Roscoe St Chicago, IL 60618",
+"Custom Eyes" 
+],
+[
+ "2000 W Addison St Chicago, IL 60618",
+"Eyecare Of Wrigleyville" 
+],
+[
+ "1926 W Irving Park Rd Chicago, IL 60613",
+"Barry P Siegel OD PC" 
+],
+[
+ "4740 N Lincoln Ave Chicago, IL 60625",
+"Spex" 
+],
+[
+ "3711 W Lawrence Ave Chicago, IL 60625",
+"Lawrence Eye Care" 
+],
+[
+ "3250 N Lincoln Ave Chicago, IL 60657",
+"Lyons Family Eye Care" 
+],
+[
+ "3500 N Ashland Ave Chicago, IL 60657",
+"Lakeview Eye Care" 
+],
+[
+ "4735 N Damen Ave Chicago, IL 60625",
+"Eye See Ravenswood" 
+],
+[
+ "3136 N Lincoln Ave Chicago, IL 60657",
+"Pearle Vision" 
+],
+[
+ "3539 N Southport Ave Unit N Chicago, IL 60657",
+"Custom Eyes" 
+],
+[
+ "3220 W Armitage Ave Chicago, IL 60647",
+"Onesite Eyecare" 
+],
+[
+ "4418 W Diversey Ave Chicago, IL 60639",
+"Spex" 
+],
+[
+ "2158 N Damen Ave Chicago, IL 60647",
+"Red Eye Eyewear" 
+],
+[
+ "1730 W Fullerton Ave Chicago, IL 60614",
+"Pearle Vision Riverpoint" 
+],
+[
+ "4017 N Milwaukee Ave Chicago, IL 60641",
+"Pearle Vision Klee Plaza At Six Corners" 
+],
+[
+ "5437 N Lincoln Ave Chicago, IL 60625",
+"Bahk Eye Care" 
+],
+[
+ "4949 W Irving Park Rd Chicago, IL 60641",
+"Spencer Eye Care Ltd" 
+],
+[
+ "3232 W Bryn Mawr Ave Chicago, IL 60659",
+"James K Chikaraishi OD" 
+],
+[
+ "2736 N Lincoln Ave Chicago, IL 60614",
+"Wink Optical" 
+],
+[
+ "3053 N Sheffield Ave Chicago, IL 60657",
+"Vision Boutique" 
+],
+[
+ "1056 W Wilson Ave Chicago, IL 60640",
+"Wilson Optical" 
+],
+[
+ "5222 N Clark St Chicago, IL 60640",
+"Visionary Eye Care Professionals PC" 
+],
+[
+ "2152 N Clybourn St Chicago, IL 60614",
+"Rosin Eyecare" 
+],
+[
+ "4863A N Broadway Chicago, IL 60640",
+"Vision 20 Eyecare" 
+],
+[
+ "3760 N Broadway St Chicago, IL 60613",
+"Spex" 
+],
+[
+ "5408 N Clark Chicago, IL 60640",
+"Spex" 
+],
+[
+ "2852 N Halsted Chicago, IL 60657",
+"Halsted Eye Boutique" 
+],
+[
+ "2525 N Lincoln Ave Chicago, IL 60614",
+"Steven K Kajita OD" 
+],
+[
+ "1515 N Milwaukee Ave Chicago, IL 60622",
+"Urban Eyecare" 
+],
+[
+ "2862 N Clark Chicago, IL 60657",
+"Chicago Vision Club On Clark INC" 
+],
+[
+ "1135 W Berwyn Chicago, IL 60640",
+"North Shore Vision Center" 
+],
+[
+ "4640 N Marine Dr Chicago, IL 60640",
+"Stone Eye Center" 
+],
+[
+ "1407 N Milwaukee Chicago, IL 60622",
+"Spex" 
+],
+[
+ "1953P N Clybourn Ave Chicago, IL 60614",
+"Eye Mechanix" 
+],
+[
+ "2730 N Clark St Chicago, IL 60614",
+"Smart Optical" 
+],
+[
+ "2222 W Division St Ste 135 Chicago, IL 60622",
+"Wicker Park Eye Center" 
+],
+[
+ "5704 N Clark St Chicago, IL 60660",
+"Edward C Chen OD" 
+],
+[
+ "2121 W Division St Chicago, IL 60622",
+"Eye Candy Optics" 
+],
+[
+ "2146 N Halsted St Chicago, IL 60614",
+"Spex" 
+],
+[
+ "4151 W Peterson Ave Chicago, IL 60646",
+"Sauganash Family Eye Center LLC" 
+],
+[
+ "1756 W Division St Chicago, IL 60622",
+"Division Optical" 
+],
+[
+ "2842 N Sheridan Rd Chicago, IL 60657",
+"Lincoln Park Eyes LLC" 
+],
+[
+ "2922 W Devon Ave Chicago, IL 60659",
+"Richard Raymer OD" 
+],
+[
+ "2922 W Devon Ave Chicago, IL 60659",
+"Eye Clinic Leo Ayzenberg MD" 
+],
+[
+ "3104 W Devon Ave Chicago, IL 60654",
+"Chicago Eye Care Center" 
+],
+[
+ "4968 N Milwaukee Ave Unit 1S Chicago, IL 60630",
+"Dr Cesar L Lau" 
+],
+[
+ "3368 W Devon Ave Lincolnwood, IL 60712",
+"Justin R Gordon OD" 
+] 
+];
+data.addColumn('string','Full.Address');
+data.addColumn('string','Name');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartMapID643cc3cf27c82() {
+var data = gvisDataMapID643cc3cf27c82();
+var options = {};
+options["showTip"] = true;
+options["showLine"] = false;
+options["enableScrollWheel"] = true;
+options["mapType"] = "terrain";
+options["useMapTypeControl"] = false;
+
+
+    var chart = new google.visualization.Map(
+    document.getElementById('MapID643cc3cf27c82')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "map";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartMapID643cc3cf27c82);
+})();
+function displayChartMapID643cc3cf27c82() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+<!-- jsChart -->  
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMapID643cc3cf27c82"></script>
+ 
+<!-- divChart -->
+  
+<div id="MapID643cc3cf27c82" 
+  style="width: 500; height: automatic;">
+</div>
