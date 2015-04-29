@@ -11,8 +11,8 @@ def isCurious(n):
     else: return(False)
     
 
-max = 9999
-cnt = 0
+max = 100000
+ans = 0
 for n in range(10,max):
-    cnt += isCurious(n)
-print(cnt)
+    if isCurious(n): ans += n
+print(ans)
