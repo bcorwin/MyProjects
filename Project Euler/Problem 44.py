@@ -1,0 +1,1 @@
+pent_nums = [int(n*(3*n - 1)/2) for n in range(1,1000)]

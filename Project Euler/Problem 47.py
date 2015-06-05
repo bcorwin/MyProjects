@@ -1,32 +1,33 @@
-from math import sqrt
+def get_primes(max):
+	a = {i:True for i in range(max+1)}
+	a[0] = a[1] = False
+	for i in range(2,max+1):
+		if a[i]:
+			for n in range(i*i, max+1, i):
+				if n <= max: a[n] = False
+				else: break
+	return(a)
+nums = get_primes(1000**2)
 
-pcnt = 4
-max = 100000
-min = 100
-nums = {i:True for i in range(max)}
-
-for i in range(max):
-    if i not in [0,1]:
-        max_k = int(max/i)
-        for k in range(2,max_k+1):
-            nums[k*i] = False
-    else: nums[i] = False
-print("here1")
 primes = []
 for n in nums:
-    if nums[n] == True: primes.append(n)
-print("here2")
+	if nums[n] == True: primes.append(n)
+
+pcnt = 4
+min = 10000
+max = 100000
 cnts = {i:0 for i in range(min,max)}
 for n in range(min,max):
-    max_d = int(sqrt(n))
-    for d in primes:
-        x = float(n)/float(d)
-        if x == int(x): cnts[n] += 1
-    if cnts[n] == pcnt:
-        chk = True
-        for k in range(1,pcnt):
-            chk = (cnts[n] == cnts[n-k]) and chk
-        if chk == True:
-            print(n-pcnt+1)
-            break
+	for d in primes:
+		if d >= n: break
+		x = float(n)/float(d)
+		if x == int(x): cnts[n] += 1
+	if cnts[n] == pcnt:
+		chk = True
+		for k in range(1,pcnt):
+			try: chk = (cnts[n] == cnts[n-k]) and chk
+			except: chk = False
+		if chk == True:
+			print(n-pcnt+1)
+			break
 print("Done!")

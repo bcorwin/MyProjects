@@ -1,15 +1,15 @@
 // To do:
 // - Auto off after 30 mins
 // - Button to turn display on/off -- combine with reset button (press once vs. press & hold)
-// - Phase updating is broken
+// - Variable resistor to adjust auto-off time
 
 #define led_cnt 4
 #define phase_cnt 8
 
 //unsigned long auto_off_len = 1800000;
-unsigned long auto_off_len = 1600;
+unsigned long auto_off_len = 12800;
 //unsigned long synodic = 2551442877;
-unsigned long synodic = 801;
+unsigned long synodic = 6401;
 unsigned long phase_len = synodic/phase_cnt;
 
 int leds[led_cnt] = {2,3,4,5};
@@ -54,11 +54,11 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {
   cur_time = millis();
-  Serial.print(cur_time);
-  Serial.print(" ");
-  Serial.print(last_update);
-  Serial.print(" ");
-  Serial.println(phase_len);
+  //Serial.print(cur_time);
+  //Serial.print(" ");
+  //Serial.print(last_update);
+  //Serial.print(" ");
+  //Serial.println(phase_len);
   if((cur_time - last_update) > phase_len) {
     update();
   } else if(digitalRead(set_button) == HIGH) {
