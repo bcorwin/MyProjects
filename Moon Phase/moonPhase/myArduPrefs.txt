@@ -1,5 +1,0 @@
-auto indent format 1
-enforce array bounds 1
-Uno Board Version 2
-TWI buffer length 32
-IODevs File Name myUnoDevs.txt
