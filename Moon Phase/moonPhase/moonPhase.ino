@@ -1,3 +1,5 @@
+#include <IRremote.h>
+
 // To do:
 // - Auto off after 30 mins
 // - Button to turn display on/off -- combine with reset button (press once vs. press & hold)
@@ -5,21 +7,24 @@
 
 #define led_cnt 4
 #define phase_cnt 8
+#define button1 1382704329
+#define button2 3951113197
 
 //unsigned long auto_off_len = 1800000;
-unsigned long auto_off_len = 12800;
+unsigned long auto_off_len = 1280000000;
 //unsigned long synodic = 2551442877;
-unsigned long synodic = 6401;
+unsigned long synodic = 64010;
 unsigned long phase_len = synodic/phase_cnt;
 
-int leds[led_cnt] = {2,3,4,5};
+int IRpin = 11;  // pin for the IR sensor
+IRrecv irrecv(IRpin);
+decode_results results;
+
+int leds[led_cnt] = {2,3,4,6};
 int phase = phase_cnt-1;
 
 int phases[phase_cnt][led_cnt];
 int add[led_cnt];
-
-int set_button = 13;
-int disp_button = 14;
 
 unsigned long cur_time;
 unsigned long last_update = millis();
@@ -29,10 +34,8 @@ boolean disp_on = true;
 
 // the setup routine runs once when you press reset:
 void setup() {
-  // initialize the digital pin as an output.
-  pinMode(set_button, INPUT);
-  pinMode(disp_button, INPUT);
-  
+  Serial.begin(9600);
+  irrecv.enableIRIn(); // Start the receiver
   //Create phases matrix and initialize the led pins.
   for(int j = 0; j < led_cnt; j++) {
     add[j] = LOW;
@@ -54,14 +57,14 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {
   cur_time = millis();
-  //Serial.print(cur_time);
-  //Serial.print(" ");
-  //Serial.print(last_update);
-  //Serial.print(" ");
-  //Serial.println(phase_len);
+  
+   irrecv.resume();
+   if(results.value != 0) {
+      Serial.println(results.value);
+   }
   if((cur_time - last_update) > phase_len) {
     update();
-  } else if(digitalRead(set_button) == HIGH) {
+  } else if(results.value == button2) {
       if(disp_on == false) {
           disp_on = true;
           last_light = cur_time;
